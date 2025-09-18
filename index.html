@@ -10,62 +10,36 @@
             <link rel="stylesheet" href="../css/light.css">
         </head>
         <body>
-            <header class="header">
-                <div class="leftheader">
-                    <img src="logo.png" alt="logo" class="logo" width="20" height="20">
-                    <a href="" class="logotext">Kolenval</a>
-                    <nav class="nav">
-                        <a href="" class="nav-link">Головна</a>
-                        <a href="/about/" class="nav-link">Про нас</a>
-                        <a href="/payment_and_delivery/" class="nav-link">Оплата і доставка</a>
-                        <a href="/contacts/" class="nav-link">Контакти</a>
-                        <a href="/warranty/" class="nav-link">Гарантія</a>
-                        <a href="/info/" class="nav-link">Інформація</a>
-                    </nav>
-                </div>
-                <input type="text" id="searchBox" placeholder="Пошук...">
-            </header>
-            <div class="container">
+            <style>
+                .bob {
+                    justify-content: center;
+                    align-items: center;
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    flex-direction: column;
+                }
+                h1 {
+                    text-align: center;
+                    color: #c2c2c2;
+                    font-family: Outfit;
+                }
+                .kolenvaltext {
+                    font-family: 'Reem Kufi', sans-serif;
+                    font-size: 48px;
+                    color: #000000;
 
-
-                <main>
-                    <div class="banner">
-
-                    </div>
-                    <div class="product-gallery" id="productGallery">
-                    </div>
-
-                    <script>
-                        fetch('products.json')
-                            .then(response => response.json())
-                            .then(data => {
-                                const gallery = document.getElementById('productGallery');
-                                data.products.forEach(product => {
-                                    const productCard = document.createElement('div');
-                                    productCard.className = 'product-card';
-                                    productCard.innerHTML = `
-                                        <div class="productimage">
-                                            <img src="${product.image}" alt="${product.name}" width="200">
-                                        </div>
-                                        <h3 class="productname">${product.name}</h3>
-                                        <p class="productdescription">${product.description}</p>
-                                        <div class="underrow">
-                                            <span class="productprice">${product.price} грн</span>
-                                            <button class="buy-button">
-                                                <img src="../ico/shop.png" alt="cart" width="16" height="16">
-                                            </button>
-                                        </div>
-                                    `;
-                                    gallery.appendChild(productCard);
-                                });
-                            })
-                            .catch(error => console.error('Error loading products:', error));
-                    </script>
-                </main>
-
-<!--                <footer>
-                    <p>&copy; 2025 Kolenval </p>
-                </footer> -->
+                }
+                .warn{
+                    margin-top: 13%;
+                }
+            </style>
+            <div class="bob">
+                <img src="../ico/work.png" class="warn" width="100" height="100">
+                <h1 class="kolenvaltext">Kolenval</h1>
+                <h1>Сайт на стадії розробки</h1>
+                <p></p>
             </div>
+
         </body>
     </html>
