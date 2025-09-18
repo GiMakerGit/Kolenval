@@ -1,0 +1,103 @@
+{
+    "products": [
+        {
+            "id": 1,
+            "name": "Колінчасті вали Д-144, Д-37",
+            "description": "Нові колінвали Д-144, Т-40.",
+            "price": "7000,00",
+            "image": "/img/1.jpg",
+            "category": "Kolenval_BLAT",
+            "inStock": true
+        },
+        {
+            "id": 2,
+            "name": "Колінчасті вали Д-144, Д-37",
+            "description": "Нові колінвали Д-144, Т-40.",
+            "price": "7000,00",
+            "image": "/img/1.jpg",
+            "category": "Kolenval_BLAT",
+            "inStock": true
+        },
+                {
+            "id": 3,
+            "name": "Колінчасті вали Д-144, Д-37",
+            "description": "Нові колінвали Д-144, Т-40.",
+            "price": "7000,00",
+            "image": "/img/1.jpg",
+            "category": "Kolenval_BLAT",
+            "inStock": true
+        },
+                {
+            "id": 4,
+            "name": "Колінчасті вали Д-144, Д-37",
+            "description": "Нові колінвали Д-144, Т-40.",
+            "price": "7000,00",
+            "image": "/img/1.jpg",
+            "category": "Kolenval_BLAT",
+            "inStock": true
+        },
+                {
+            "id": 5,
+            "name": "Колінчасті вали Д-144, Д-37",
+            "description": "Нові колінвали Д-144, Т-40.",
+            "price": "7000,00",
+            "image": "/img/1.jpg",
+            "category": "Kolenval_BLAT",
+            "inStock": true
+        },
+                {
+            "id": 6,
+            "name": "Колінчасті вали Д-144, Д-37",
+            "description": "Нові колінвали Д-144, Т-40.",
+            "price": "7000,00",
+            "image": "/img/1.jpg",
+            "category": "Kolenval_BLAT",
+            "inStock": true
+        },
+                {
+            "id": 7,
+            "name": "Колінчасті вали Д-144, Д-37",
+            "description": "Нові колінвали Д-144, Т-40.",
+            "price": "7000,00",
+            "image": "/img/1.jpg",
+            "category": "Kolenval_BLAT",
+            "inStock": true
+        },
+                {
+            "id": 8,
+            "name": "Колінчасті вали Д-144, Д-37",
+            "description": "Нові колінвали Д-144, Т-40.",
+            "price": "7000,00",
+            "image": "/img/1.jpg",
+            "category": "Kolenval_BLAT",
+            "inStock": true
+        },
+                {
+            "id": 9,
+            "name": "Колінчасті вали Д-144, Д-37",
+            "description": "Нові колінвали Д-144, Т-40.",
+            "price": "7000,00",
+            "image": "/img/1.jpg",
+            "category": "Kolenval_BLAT",
+            "inStock": true
+        },
+                {
+            "id": 10,
+            "name": "Колінчасті вали Д-144, Д-37",
+            "description": "Нові колінвали Д-144, Т-40.",
+            "price": "7000,00",
+            "image": "/img/1.jpg",
+            "category": "Kolenval_BLAT",
+            "inStock": true
+        },
+                {
+            "id": 11,
+            "name": "Колінчасті вали Д-144, Д-37",
+            "description": "Нові колінвали Д-144, Т-40.",
+            "price": "7000,00",
+            "image": "/img/1.jpg",
+            "category": "Kolenval_BLAT",
+            "inStock": true
+        }
+    ]
+}
