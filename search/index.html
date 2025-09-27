@@ -23,6 +23,7 @@
                         <a href="/warranty/" class="nav-link">Гарантія</a>
                         <a href="/info/" class="nav-link">Інформація</a>
                     </nav>
+                    </div>
                 </div>
                 <div class="search-container">
                     <input type="text" id="searchBox" placeholder="Пошук...">
@@ -52,41 +53,55 @@
                 fetch("../products.json")
                     .then(res => res.json())
                     .then(data => {
-                    products = data.products; 
+                    products = data.products; // use 'products' array
                     initSearchFromURL();
                     });
 
                 const searchBox = document.getElementById("searchBox");
                 const results = document.getElementById("results");
 
+                // Initially hide dropdown
+                results.style.display = "none";
+
+                // Show dropdown results
                 function showResults(query) {
                     results.innerHTML = "";
-                    if (!query) return;
+
+                    if (!query) {
+                    results.style.display = "none"; // hide when no search
+                    return;
+                    }
 
                     const filtered = products.filter(p =>
-                    p.name.toLowerCase().includes(query.toLowerCase())
+                    p.name.toLowerCase().includes(query.toLowerCase()) ||
+                    p.category.toLowerCase().includes(query.toLowerCase())
                     );
 
                     if (filtered.length === 0) {
                     const li = document.createElement("li");
                     li.textContent = "No products found";
                     results.appendChild(li);
+                    results.style.display = "block";
                     return;
                     }
 
                     filtered.forEach(p => {
                     const li = document.createElement("li");
-                    li.innerHTML = `${p.name} - ${p.price}`; // you can also add <img src="${p.image}" />
+                    li.innerHTML = `<strong>${p.name}</strong> - ${p.price} <em>(${p.category})</em>`;
                     li.addEventListener("click", () => {
                         window.location.href = `/product?q=${encodeURIComponent(p.name)}`;
                     });
                     results.appendChild(li);
                     });
+
+                    results.style.display = "block"; // show dropdown when we have results
                 }
 
+                // Typing → live dropdown
                 searchBox.addEventListener("input", () => {
                     const query = searchBox.value.trim();
                     showResults(query);
+
                     if (query) {
                     history.replaceState(null, "", `/search?q=${encodeURIComponent(query)}`);
                     } else {
@@ -94,6 +109,7 @@
                     }
                 });
 
+                // Press Enter → go to /search?q=...
                 searchBox.addEventListener("keydown", (e) => {
                     if (e.key === "Enter") {
                     e.preventDefault();
@@ -104,6 +120,7 @@
                     }
                 });
 
+                // On page load: fill search box from URL and show results
                 function initSearchFromURL() {
                     const params = new URLSearchParams(window.location.search);
                     const q = params.get("q");
@@ -113,11 +130,13 @@
                     }
                 }
 
+                // Close dropdown if clicked outside
                 document.addEventListener("click", (e) => {
                     if (!document.querySelector(".search-container").contains(e.target)) {
-                    results.innerHTML = "";
+                    results.style.display = "none"; // hide dropdown
                     }
                 });
             </script>
+
         </body>
     </html>

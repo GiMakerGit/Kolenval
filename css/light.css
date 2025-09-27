@@ -146,16 +146,27 @@ nav a:hover {
     align-items: center;
 }
 
- .search-container {
+.search-container {
+    font-family: Outfit;
+    font-weight: 600;
+    flex: 1;               /* allow it to grow */
+    display: flex;
     position: relative;
-    display: inline-block;
-  }
+    min-width: 100px;      /* never shrink too small */
+    max-width: 100%;       /* don’t exceed header width */
+    margin-left: 40px;
+}
 
-  #searchBox {
-    width: 250px;
+#searchBox {
+    font-family: Outfit;
+    font-weight: 600;
+    flex: 1;               /* fill available space */
+    min-width: 100px;      /* never shrink below this */
     padding: 8px;
-  }
-
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
   #results {
     font-family: Outfit;
     position: absolute;
@@ -171,6 +182,8 @@ nav a:hover {
     padding: 0;
     margin: 0;
     z-index: 1000;
+    border-radius: 6px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
 
   #results li {
@@ -181,3 +194,24 @@ nav a:hover {
   #results li:hover {
     background: #f0f0f0;
   }
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: rgb(0, 0, 0); 
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(80, 80, 80);
+}
