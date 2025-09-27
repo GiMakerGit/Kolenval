@@ -145,3 +145,39 @@ nav a:hover {
     justify-content: space-between;
     align-items: center;
 }
+
+ .search-container {
+    position: relative;
+    display: inline-block;
+  }
+
+  #searchBox {
+    width: 250px;
+    padding: 8px;
+  }
+
+  #results {
+    font-family: Outfit;
+    position: absolute;
+    top: 100%;   /* below input */
+    left: 0;
+    width: 100%;
+    background: white;
+    border: 1px solid #ccc;
+    border-top: none;
+    max-height: 200px;
+    overflow-y: auto;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    z-index: 1000;
+  }
+
+  #results li {
+    padding: 8px;
+    cursor: pointer;
+  }
+
+  #results li:hover {
+    background: #f0f0f0;
+  }

@@ -24,9 +24,10 @@
                         <a href="/info/" class="nav-link">Інформація</a>
                     </nav>
                 </div>
-                <input type="text" id="searchBox" placeholder="Пошук...">
+                <div class="search-container">
+                    <input type="text" id="searchBox" placeholder="Пошук...">
+                    <ul id="results"></ul>
                 </div>
-                <input type="text" id="searchBox" placeholder="Пошук...">
             </header>
             <div class="container">
 
@@ -43,5 +44,80 @@
                     <p>&copy; 2025 Kolenval </p>
                 </footer> -->
             </div>
+
+            <script>
+                let products = [];
+
+                // Load products JSON
+                fetch("../products.json")
+                    .then(res => res.json())
+                    .then(data => {
+                    products = data.products; 
+                    initSearchFromURL();
+                    });
+
+                const searchBox = document.getElementById("searchBox");
+                const results = document.getElementById("results");
+
+                function showResults(query) {
+                    results.innerHTML = "";
+                    if (!query) return;
+
+                    const filtered = products.filter(p =>
+                    p.name.toLowerCase().includes(query.toLowerCase())
+                    );
+
+                    if (filtered.length === 0) {
+                    const li = document.createElement("li");
+                    li.textContent = "No products found";
+                    results.appendChild(li);
+                    return;
+                    }
+
+                    filtered.forEach(p => {
+                    const li = document.createElement("li");
+                    li.innerHTML = `${p.name} - ${p.price}`; // you can also add <img src="${p.image}" />
+                    li.addEventListener("click", () => {
+                        window.location.href = `/product?q=${encodeURIComponent(p.name)}`;
+                    });
+                    results.appendChild(li);
+                    });
+                }
+
+                searchBox.addEventListener("input", () => {
+                    const query = searchBox.value.trim();
+                    showResults(query);
+                    if (query) {
+                    history.replaceState(null, "", `/search?q=${encodeURIComponent(query)}`);
+                    } else {
+                    history.replaceState(null, "", `/search`);
+                    }
+                });
+
+                searchBox.addEventListener("keydown", (e) => {
+                    if (e.key === "Enter") {
+                    e.preventDefault();
+                    const query = searchBox.value.trim();
+                    if (query) {
+                        window.location.href = `/search?q=${encodeURIComponent(query)}`;
+                    }
+                    }
+                });
+
+                function initSearchFromURL() {
+                    const params = new URLSearchParams(window.location.search);
+                    const q = params.get("q");
+                    if (q) {
+                    searchBox.value = q;
+                    showResults(q);
+                    }
+                }
+
+                document.addEventListener("click", (e) => {
+                    if (!document.querySelector(".search-container").contains(e.target)) {
+                    results.innerHTML = "";
+                    }
+                });
+            </script>
         </body>
     </html>
