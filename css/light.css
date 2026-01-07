@@ -32,7 +32,7 @@ body {
 nav a {
     text-decoration: none;
     color: inherit;
-    font-family: Outfit;
+    font-family: 'Outfit', Arial, Helvetica, sans-serif;
     font-weight: 700;
     display: inline-block;
     background-image: linear-gradient(currentColor, currentColor);
@@ -47,7 +47,7 @@ nav a:hover {
 }
 
 .logotext {
-    font-family: Reem Kufi, sans-serif;
+    font-family: 'Reem Kufi', sans-serif;
     font-weight: bold;
     font-size: 24px;
     text-decoration: none;
@@ -108,14 +108,14 @@ nav a:hover {
 }
 
 .productname {
-    font-family: Outfit;
+    font-family: 'Outfit', Arial, Helvetica, sans-serif;
     font-weight: 600;
     font-size: 18px;
     margin: 5px 0;
 }
 
 .productdescription {
-    font-family: Outfit;
+    font-family: 'Outfit', Arial, Helvetica, sans-serif;
     font-size: 14px;
     color: #555;
     margin-bottom: 15px;
@@ -127,7 +127,7 @@ nav a:hover {
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 14px;
-    font-family: Outfit;
+    font-family: 'Outfit';
 }
 
 .productimage {
@@ -147,7 +147,7 @@ nav a:hover {
 }
 
 .search-container {
-    font-family: Outfit;
+    font-family: 'Outfit', Arial, Helvetica, sans-serif;
     font-weight: 600;
     flex: 1;               /* allow it to grow */
     display: flex;
@@ -158,7 +158,7 @@ nav a:hover {
 }
 
 #searchBox {
-    font-family: Outfit;
+    font-family: 'Outfit', Arial, Helvetica, sans-serif;
     font-weight: 600;
     flex: 1;               /* fill available space */
     min-width: 100px;      /* never shrink below this */
@@ -168,7 +168,7 @@ nav a:hover {
     border-radius: 4px;
 }
   #results {
-    font-family: Outfit;
+    font-family: 'Outfit', Arial, Helvetica, sans-serif;
     position: absolute;
     top: 100%;   /* below input */
     left: 0;
