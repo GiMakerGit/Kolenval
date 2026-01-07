@@ -121,6 +121,39 @@ nav a:hover {
     margin-bottom: 15px;
 }
 
+.productds {
+    height: 60px;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+}
+
+.productds::-webkit-scrollbar {
+    width: 4px;
+}
+
+.productds::-webkit-scrollbar-track {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+
+.productds::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: transparent; 
+}
+
+.productds::-webkit-scrollbar-thumb:hover {
+    background: transparent;
+}
+
+.productprice {
+    font-family: 'Outfit', Arial, Helvetica, sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: #000;
+    margin-bottom: 10px;
+}
+
 #searchBox {
     width: 500px;
     padding: 5px 10px;
