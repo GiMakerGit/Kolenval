@@ -17,7 +17,7 @@
         <body>
             <header class="header">
                 <div class="leftheader">
-                    <img src="logo.png" alt="logo" class="logo" width="20" height="20">
+                    <img src="logo.png" alt="logo" class="logo" width="20" height="20" onerror="this.src='images/no-image.gif'">
                     <a href="" class="logotext">Kolenval</a>
                     <nav class="nav">
                         <a href="" class="nav-link">Головна</a>
@@ -28,7 +28,10 @@
                         <a href="/info/" class="nav-link">Інформація</a>
                     </nav>
                 </div>
-                <input type="text" id="searchBox" placeholder="Пошук...">
+                <div class="search-container">
+                    <input type="text" id="searchBox" placeholder="Пошук...">
+                    <ul id="results"></ul>
+                </div>
             </header>
             <div class="container">
 
@@ -50,7 +53,7 @@
                                     productCard.className = 'product-card';
                                     productCard.innerHTML = `
                                         <div class="productimage">
-                                            <img src="${product.image}" alt="${product.name}" width="200">
+                                            <img src="${product.image}" alt="${product.name}" width="200" onerror="this.src='images/no-image.gif'">
                                         </div>
                                         <h3 class="productname">${product.name}</h3>
                                         <div class="productds">
@@ -59,7 +62,7 @@
                                         <div class="underrow">
                                             <span class="productprice">${product.price} грн</span>
                                             <button class="buy-button">
-                                                <img src="../ico/shop.png" alt="cart" width="16" height="16">
+                                                <img src="../ico/shop.png" alt="cart" width="16" height="16" onerror="this.src='images/no-image.gif'">
                                             </button>
                                         </div>
                                     `;
@@ -67,6 +70,97 @@
                                 });
                             })
                             .catch(error => console.error('Error loading products:', error));
+                    </script>
+                    <script>
+                        let products = [];
+
+                        // Load products JSON
+                        fetch("../products.json")
+                            .then(res => res.json())
+                            .then(data => {
+                            products = data.products; // use 'products' array
+                            initSearchFromURL();
+                            });
+
+                        const searchBox = document.getElementById("searchBox");
+                        const results = document.getElementById("results");
+
+                        // Initially hide dropdown
+                        results.style.display = "none";
+
+                        // Show dropdown results
+                        function showResults(query) {
+                            results.innerHTML = "";
+
+                            if (!query) {
+                            results.style.display = "none"; // hide when no search
+                            return;
+                            }
+
+                            const filtered = products.filter(p =>
+                            p.name.toLowerCase().includes(query.toLowerCase()) ||
+                            p.category.toLowerCase().includes(query.toLowerCase())
+                            );
+
+                            if (filtered.length === 0) {
+                            const li = document.createElement("li");
+                            li.textContent = "No products found";
+                            results.appendChild(li);
+                            results.style.display = "block";
+                            return;
+                            }
+
+                            filtered.forEach(p => {
+                            const li = document.createElement("li");
+                            li.innerHTML = `<strong>${p.name}</strong> - ${p.price} <em>(${p.category})</em>`;
+                            li.addEventListener("click", () => {
+                                window.location.href = `/product?q=${encodeURIComponent(p.name)}`;
+                            });
+                            results.appendChild(li);
+                            });
+
+                            results.style.display = "block"; // show dropdown when we have results
+                        }
+
+                        // Typing → live dropdown
+                        searchBox.addEventListener("input", () => {
+                            const query = searchBox.value.trim();
+                            showResults(query);
+
+                            if (query) {
+                            history.replaceState(null, "", `/search?q=${encodeURIComponent(query)}`);
+                            } else {
+                            history.replaceState(null, "", `/search`);
+                            }
+                        });
+
+                        // Press Enter → go to /search?q=...
+                        searchBox.addEventListener("keydown", (e) => {
+                            if (e.key === "Enter") {
+                            e.preventDefault();
+                            const query = searchBox.value.trim();
+                            if (query) {
+                                window.location.href = `/search?q=${encodeURIComponent(query)}`;
+                            }
+                            }
+                        });
+
+                        // On page load: fill search box from URL and show results
+                        function initSearchFromURL() {
+                            const params = new URLSearchParams(window.location.search);
+                            const q = params.get("q");
+                            if (q) {
+                            searchBox.value = q;
+                            showResults(q);
+                            }
+                        }
+
+                        // Close dropdown if clicked outside
+                        document.addEventListener("click", (e) => {
+                            if (!document.querySelector(".search-container").contains(e.target)) {
+                            results.style.display = "none"; // hide dropdown
+                            }
+                        });
                     </script>
                 </main>
 
