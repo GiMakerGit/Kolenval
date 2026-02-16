@@ -5,41 +5,213 @@
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <link rel="preconnect" href="https://fonts.googleapis.com">
             <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-            <link href="https://fonts.googleapis.com/css2?family=Outfit&family=Reem+Kufi&display=swap" rel="stylesheet">
+            <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400..700&display=swap" rel="stylesheet">
+            <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
             <title>Коленвали</title>
             <link rel="stylesheet" href="../css/light.css">
-        </head>
-        <body>
+            <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+            <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+            <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+            <link rel="manifest" href="/site.webmanifest">
             <style>
-                .bob {
-                    justify-content: center;
-                    align-items: center;
+                #loadingScreen {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
                     width: 100%;
                     height: 100%;
+                    background: white;
+                    z-index: 9999;
+                    opacity: 1;
+                    transition: opacity 0.6s ease-out;
                     display: flex;
-                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
                 }
-                h1 {
-                    text-align: center;
-                    color: #c2c2c2;
-                    font-family: Outfit;
+                
+                #loadingScreen.fade-out {
+                    opacity: 0;
+                    transition: opacity 0.6s ease-out;
                 }
-                .kolenvaltext {
-                    font-family: 'Reem Kufi', sans-serif;
-                    font-size: 48px;
-                    color: #000000;
-
-                }
-                .warn{
-                    margin-top: 13%;
+                
+                #loadingScreen video {
+                    width: 40px;
+                    height: 30px;
+                    object-fit: contain;
                 }
             </style>
-            <div class="bob">
-                <img src="../ico/work.png" class="warn" width="100" height="100">
-                <h1 class="kolenvaltext">Kolenval</h1>
-                <h1>Сайт на стадії розробки</h1>
-                <p></p>
+        </head>
+        <body>
+            <div id="loadingScreen">
+                <video autoplay muted playsinline>
+                    <source src="video/kolenvalload.webm" type="video/webm">
+                </video>
             </div>
+            
+            <header class="header">
+                <div class="leftheader">
+                    <img src="logo.png" alt="logo" class="logo" width="20" height="20" onerror="this.src='images/no-image.gif'">
+                    <a href="" class="logotext">Kolenval</a>
+                    <nav class="nav">
+                        <a href="" class="nav-link">Головна</a>
+                        <a href="/about/" class="nav-link">Про нас</a>
+                        <a href="/payment_and_delivery/" class="nav-link">Оплата і доставка</a>
+                        <a href="/contacts/" class="nav-link">Контакти</a>
+                        <a href="/warranty/" class="nav-link">Гарантія</a>
+                        <a href="/info/" class="nav-link">Інформація</a>
+                    </nav>
+                </div>
+                <div class="search-container">
+                    <input type="text" id="searchBox" placeholder="Пошук...">
+                    <ul id="results"></ul>
+                </div>
+            </header>
+            <div class="container">
 
+
+                <main>
+                    <div class="banner">
+
+                    </div>
+                    <div class="product-gallery" id="productGallery">
+                    </div>
+
+                    <script>
+                        fetch('products.json')
+                            .then(response => response.json())
+                            .then(data => {
+                                const gallery = document.getElementById('productGallery');
+                                data.products.forEach(product => {
+                                    const productCard = document.createElement('div');
+                                    productCard.className = 'product-card';
+                                    productCard.innerHTML = `
+                                        <div class="productimage">
+                                            <img src="${product.image}" alt="${product.name}" width="200" onerror="this.src='images/no-image.gif'">
+                                        </div>
+                                        <h3 class="productname">${product.name}</h3>
+                                        <div class="productds">
+                                        <p class="productdescription">${product.description}</p>
+                                        </div>
+                                        <div class="underrow">
+                                            <span class="productprice">${product.price} грн</span>
+                                            <button class="buy-button">
+                                                <img src="../ico/shop.png" alt="cart" width="16" height="16" onerror="this.src='images/no-image.gif'">
+                                            </button>
+                                        </div>
+                                    `;
+                                    gallery.appendChild(productCard);
+                                });
+                            })
+                            .catch(error => console.error('Error loading products:', error));
+                    </script>
+                    <script>
+                        let products = [];
+
+                        // Load products JSON
+                        fetch("../products.json")
+                            .then(res => res.json())
+                            .then(data => {
+                            products = data.products; // use 'products' array
+                            initSearchFromURL();
+                            });
+
+                        const searchBox = document.getElementById("searchBox");
+                        const results = document.getElementById("results");
+
+                        // Initially hide dropdown
+                        results.style.display = "none";
+
+                        // Show dropdown results
+                        function showResults(query) {
+                            results.innerHTML = "";
+
+                            if (!query) {
+                            results.style.display = "none"; // hide when no search
+                            return;
+                            }
+
+                            const filtered = products.filter(p =>
+                            p.name.toLowerCase().includes(query.toLowerCase()) ||
+                            p.category.toLowerCase().includes(query.toLowerCase())
+                            );
+
+                            if (filtered.length === 0) {
+                            const li = document.createElement("li");
+                            li.textContent = "No products found";
+                            results.appendChild(li);
+                            results.style.display = "block";
+                            return;
+                            }
+
+                            filtered.forEach(p => {
+                            const li = document.createElement("li");
+                            li.innerHTML = `<strong>${p.name}</strong> - ${p.price} <em>(${p.category})</em>`;
+                            li.addEventListener("click", () => {
+                                window.location.href = `/product?q=${encodeURIComponent(p.name)}`;
+                            });
+                            results.appendChild(li);
+                            });
+
+                            results.style.display = "block"; // show dropdown when we have results
+                        }
+
+                        // Typing → live dropdown
+                        searchBox.addEventListener("input", () => {
+                            const query = searchBox.value.trim();
+                            showResults(query);
+
+                            if (query) {
+                            history.replaceState(null, "", `/search?q=${encodeURIComponent(query)}`);
+                            } else {
+                            history.replaceState(null, "", `/search`);
+                            }
+                        });
+
+                        // Press Enter → go to /search?q=...
+                        searchBox.addEventListener("keydown", (e) => {
+                            if (e.key === "Enter") {
+                            e.preventDefault();
+                            const query = searchBox.value.trim();
+                            if (query) {
+                                window.location.href = `/search?q=${encodeURIComponent(query)}`;
+                            }
+                            }
+                        });
+
+                        // On page load: fill search box from URL and show results
+                        function initSearchFromURL() {
+                            const params = new URLSearchParams(window.location.search);
+                            const q = params.get("q");
+                            if (q) {
+                            searchBox.value = q;
+                            showResults(q);
+                            }
+                        }
+
+                        // Close dropdown if clicked outside
+                        document.addEventListener("click", (e) => {
+                            if (!document.querySelector(".search-container").contains(e.target)) {
+                            results.style.display = "none"; // hide dropdown
+                            }
+                        });
+                    </script>
+                    
+                    <script>
+                        window.addEventListener('load', function() {
+                            const loadingScreen = document.getElementById('loadingScreen');
+                            if (loadingScreen) {
+                                loadingScreen.classList.add('fade-out');
+                                setTimeout(() => {
+                                    loadingScreen.remove();
+                                }, 600);
+                            }
+                        });
+                    </script>
+                </main>
+
+<!--                <footer>
+                    <p>&copy; 2025 Kolenval </p>
+                </footer> -->
+            </div>
         </body>
     </html>

@@ -8,32 +8,165 @@
 <link href="https://fonts.googleapis.com/css2?family=Outfit&family=Reem+Kufi&display=swap" rel="stylesheet">
             <title>Коленвали</title>
             <link rel="stylesheet" href="../css/light.css">
-
+            <style>
+                #loadingScreen {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: white;
+                    z-index: 9999;
+                    opacity: 1;
+                    transition: opacity 0.6s ease-out;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+                
+                #loadingScreen.fade-out {
+                    opacity: 0;
+                    transition: opacity 0.6s ease-out;
+                }
+                
+                #loadingScreen video {
+                    width: 40px;
+                    height: 30px;
+                    object-fit: contain;
+                }
+            </style>
         </head>
         <body>
+            <div id="loadingScreen">
+                <video autoplay muted playsinline>
+                    <source src="../video/kolenvalload.webm" type="video/webm">
+                </video>
+            </div>
+            
             <header class="header">
-                <img src="../logo.png" alt="logo" class="logo" width="20" height="20">
-                <a href="../" class="logotext">Kolenval</a>
-                <nav class="nav">
-                    <a href="../" class="nav-link">Головна</a>
-                    <a href="/about/" class="nav-link">Про нас</a>
-                    <a href="/payment_and_delivery/" class="nav-link">Оплата і доставка</a>
-                    <a href="/contacts/" class="nav-link">Контакти</a>
-                    <a href="/warranty/" class="nav-link">Гарантія</a>
-                    <a href="/info/" class="nav-link">Інформація</a>
-                </nav>
-                <input type="text" id="searchBox" placeholder="Пошук...">
+                <div class="leftheader">
+                    <img src="../logo.png" alt="logo" class="logo" width="20" height="20">
+                    <a href="../" class="logotext">Kolenval</a>
+                    <nav class="nav">
+                        <a href="../" class="nav-link">Головна</a>
+                        <a href="/about/" class="nav-link">Про нас</a>
+                        <a href="/payment_and_delivery/" class="nav-link">Оплата і доставка</a>
+                        <a href="/contacts/" class="nav-link">Контакти</a>
+                        <a href="/warranty/" class="nav-link">Гарантія</a>
+                        <a href="/info/" class="nav-link">Інформація</a>
+                    </nav>
+                </div>
+                <div class="search-container">
+                    <input type="text" id="searchBox" placeholder="Пошук...">
+                    <ul id="results"></ul>
+                </div>
             </header>
             <div class="container">
 
 
                 <main>
                     
+                    <script>
+                        let products = [];
+
+                        fetch("../products.json")
+                            .then(res => res.json())
+                            .then(data => {
+                            products = data.products;
+                            initSearchFromURL();
+                            });
+
+                        const searchBox = document.getElementById("searchBox");
+                        const results = document.getElementById("results");
+
+                        results.style.display = "none";
+
+                        function showResults(query) {
+                            results.innerHTML = "";
+
+                            if (!query) {
+                            results.style.display = "none";
+                            return;
+                            }
+
+                            const filtered = products.filter(p =>
+                            p.name.toLowerCase().includes(query.toLowerCase()) ||
+                            p.category.toLowerCase().includes(query.toLowerCase())
+                            );
+
+                            if (filtered.length === 0) {
+                            const li = document.createElement("li");
+                            li.textContent = "No products found";
+                            results.appendChild(li);
+                            results.style.display = "block";
+                            return;
+                            }
+
+                            filtered.forEach(p => {
+                            const li = document.createElement("li");
+                            li.innerHTML = `<strong>${p.name}</strong> - ${p.price} <em>(${p.category})</em>`;
+                            li.addEventListener("click", () => {
+                                window.location.href = `/product?q=${encodeURIComponent(p.name)}`;
+                            });
+                            results.appendChild(li);
+                            });
+
+                            results.style.display = "block";
+                        }
+
+                        searchBox.addEventListener("input", () => {
+                            const query = searchBox.value.trim();
+                            showResults(query);
+
+                            if (query) {
+                            history.replaceState(null, "", `/search?q=${encodeURIComponent(query)}`);
+                            } else {
+                            history.replaceState(null, "", `/search`);
+                            }
+                        });
+
+                        searchBox.addEventListener("keydown", (e) => {
+                            if (e.key === "Enter") {
+                            e.preventDefault();
+                            const query = searchBox.value.trim();
+                            if (query) {
+                                window.location.href = `/search?q=${encodeURIComponent(query)}`;
+                            }
+                            }
+                        });
+
+                        function initSearchFromURL() {
+                            const params = new URLSearchParams(window.location.search);
+                            const q = params.get("q");
+                            if (q) {
+                            searchBox.value = q;
+                            showResults(q);
+                            }
+                        }
+
+                        document.addEventListener("click", (e) => {
+                            if (!document.querySelector(".search-container").contains(e.target)) {
+                            results.style.display = "none";
+                            }
+                        });
+                    </script>
                 </main>
 
 <!--                <footer>
                     <p>&copy; 2025 Kolenval </p>
                 </footer> -->
             </div>
+
+            <script>
+                window.addEventListener('load', function() {
+                    const loadingScreen = document.getElementById('loadingScreen');
+                    if (loadingScreen) {
+                        loadingScreen.classList.add('fade-out');
+                        setTimeout(() => {
+                            loadingScreen.remove();
+                        }, 600);
+                    }
+                });
+            </script>
         </body>
     </html>
