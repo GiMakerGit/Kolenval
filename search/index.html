@@ -11,8 +11,41 @@
             <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
             <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
             <link rel="manifest" href="/site.webmanifest">
+            <style>
+                #loadingScreen {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: white;
+                    z-index: 9999;
+                    opacity: 1;
+                    transition: opacity 0.6s ease-out;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+                
+                #loadingScreen.fade-out {
+                    opacity: 0;
+                    transition: opacity 0.6s ease-out;
+                }
+                
+                #loadingScreen video {
+                    width: 40px;
+                    height: 30px;
+                    object-fit: contain;
+                }
+            </style>
         </head>
         <body>
+            <div id="loadingScreen">
+                <video autoplay muted playsinline>
+                    <source src="../video/kolenvalload.webm" type="video/webm">
+                </video>
+            </div>
+            
             <header class="header">
                 <div class="leftheader">
                     <div class="leftheader">
@@ -56,22 +89,22 @@
                 fetch("../products.json")
                     .then(res => res.json())
                     .then(data => {
-                    products = data.products; // use 'products' array
+                    products = data.products;
                     initSearchFromURL();
+                    displayResults();
                     });
 
                 const searchBox = document.getElementById("searchBox");
                 const results = document.getElementById("results");
+                const productGallery = document.getElementById("productGallery");
 
-                // Initially hide dropdown
                 results.style.display = "none";
 
-                // Show dropdown results
                 function showResults(query) {
                     results.innerHTML = "";
 
                     if (!query) {
-                    results.style.display = "none"; // hide when no search
+                    results.style.display = "none";
                     return;
                     }
 
@@ -92,15 +125,57 @@
                     const li = document.createElement("li");
                     li.innerHTML = `<strong>${p.name}</strong> - ${p.price} <em>(${p.category})</em>`;
                     li.addEventListener("click", () => {
-                        window.location.href = `/product?q=${encodeURIComponent(p.name)}`;
+                        window.location.href = `/search?q=${encodeURIComponent(p.name)}`;
                     });
                     results.appendChild(li);
                     });
 
-                    results.style.display = "block"; // show dropdown when we have results
+                    results.style.display = "block";
                 }
 
-                // Typing → live dropdown
+                function displayResults() {
+                    const params = new URLSearchParams(window.location.search);
+                    const query = params.get("q");
+                    
+                    if (!query) {
+                        productGallery.innerHTML = "<p>Enter a search term to find products</p>";
+                        return;
+                    }
+
+                    const filtered = products.filter(p =>
+                    p.name.toLowerCase().includes(query.toLowerCase()) ||
+                    p.category.toLowerCase().includes(query.toLowerCase())
+                    );
+
+                    productGallery.innerHTML = "";
+
+                    if (filtered.length === 0) {
+                        productGallery.innerHTML = "<p>No products found for your search</p>";
+                        return;
+                    }
+
+                    filtered.forEach(product => {
+                        const productCard = document.createElement('div');
+                        productCard.className = 'product-card';
+                        productCard.innerHTML = `
+                            <div class="productimage">
+                                <img src="${product.image}" alt="${product.name}" width="200" onerror="this.src='../images/no-image.gif'">
+                            </div>
+                            <h3 class="productname">${product.name}</h3>
+                            <div class="productds">
+                            <p class="productdescription">${product.description}</p>
+                            </div>
+                            <div class="underrow">
+                                <span class="productprice">${product.price} грн</span>
+                                <button class="buy-button">
+                                    <img src="../ico/shop.png" alt="cart" width="16" height="16" onerror="this.src='../images/no-image.gif'">
+                                </button>
+                            </div>
+                        `;
+                        productGallery.appendChild(productCard);
+                    });
+                }
+
                 searchBox.addEventListener("input", () => {
                     const query = searchBox.value.trim();
                     showResults(query);
@@ -110,9 +185,9 @@
                     } else {
                     history.replaceState(null, "", `/search`);
                     }
+                    displayResults();
                 });
 
-                // Press Enter → go to /search?q=...
                 searchBox.addEventListener("keydown", (e) => {
                     if (e.key === "Enter") {
                     e.preventDefault();
@@ -123,7 +198,6 @@
                     }
                 });
 
-                // On page load: fill search box from URL and show results
                 function initSearchFromURL() {
                     const params = new URLSearchParams(window.location.search);
                     const q = params.get("q");
@@ -133,10 +207,21 @@
                     }
                 }
 
-                // Close dropdown if clicked outside
                 document.addEventListener("click", (e) => {
                     if (!document.querySelector(".search-container").contains(e.target)) {
-                    results.style.display = "none"; // hide dropdown
+                    results.style.display = "none";
+                    }
+                });
+            </script>
+
+            <script>
+                window.addEventListener('load', function() {
+                    const loadingScreen = document.getElementById('loadingScreen');
+                    if (loadingScreen) {
+                        loadingScreen.classList.add('fade-out');
+                        setTimeout(() => {
+                            loadingScreen.remove();
+                        }, 600);
                     }
                 });
             </script>
