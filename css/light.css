@@ -8,6 +8,15 @@ body {
     margin: 0;
     padding: 0;
     min-height: 100vh;
+    background-color: transparent;
+}
+
+.container {
+    background-color: transparent;
+}
+
+main {
+    background-color: transparent;
 }
 
 .header {
@@ -67,9 +76,20 @@ nav a:hover {
     transform: translateY(-1px);
 }
 
+.banner {
+    width: 100%;
+    height: 400px;
+    position: relative;
+}
+
+.kolenvalbanner {
+    width: 100%;
+    position: absolute;
+    z-index: -1;
+}
+
 .googlemap {
     margin: 20px;
-
     border-radius: 16px;
     overflow: hidden;
     width: 600px;
@@ -83,14 +103,19 @@ nav a:hover {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 5px;
-    padding: 10px;
+    padding: 15px;
+    background: none;
 }
                         
 .product-card {
     border: 1px solid #ddd;
+    background-color: white;
     padding: 15px;
     text-align: center;
     border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
                         
 .product-card img {
@@ -121,6 +146,39 @@ nav a:hover {
     margin-bottom: 15px;
 }
 
+.productds {
+    height: 60px;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+.productds::-webkit-scrollbar {
+    display: none;
+}
+
+.productds::-webkit-scrollbar-track {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+
+.productds::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: transparent; 
+}
+
+.productds::-webkit-scrollbar-thumb:hover {
+    background: transparent;
+}
+
+.productprice {
+    font-family: 'Outfit', Arial, Helvetica, sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: #000;
+    margin-bottom: 10px;
+}
+
 #searchBox {
     width: 500px;
     padding: 5px 10px;
@@ -144,6 +202,7 @@ nav a:hover {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-top: auto;
 }
 
 .search-container {

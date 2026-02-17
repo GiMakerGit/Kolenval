@@ -1,4 +1,4 @@
 # Kolenval
-A kolenval website
+A website where you can buy car parts
 
-by any questions bugs please contact gimaker@gimaker.online
+If you have any issue or/and suggestion please contact at gimaker@gimaker.online

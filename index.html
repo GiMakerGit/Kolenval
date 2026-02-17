@@ -13,8 +13,41 @@
             <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
             <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
             <link rel="manifest" href="/site.webmanifest">
+            <style>
+                #loadingScreen {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: white;
+                    z-index: 9999;
+                    opacity: 1;
+                    transition: opacity 0.6s ease-out;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+                
+                #loadingScreen.fade-out {
+                    opacity: 0;
+                    transition: opacity 0.6s ease-out;
+                }
+                
+                #loadingScreen video {
+                    width: 40px;
+                    height: 30px;
+                    object-fit: contain;
+                }
+            </style>
         </head>
         <body>
+            <div id="loadingScreen">
+                <video autoplay muted playsinline>
+                    <source src="video/kolenvalload.webm" type="video/webm">
+                </video>
+            </div>
+            
             <header class="header">
                 <div class="leftheader">
                     <img src="logo.png" alt="logo" class="logo" width="20" height="20" onerror="this.src='images/no-image.gif'">
@@ -38,7 +71,7 @@
 
                 <main>
                     <div class="banner">
-
+                        <img src="UIImages/kolenvalbanner.png" alt="banner" class="kolenvalbanner"></img>
                     </div>
                     <div class="product-gallery" id="productGallery">
                     </div>
@@ -56,7 +89,9 @@
                                             <img src="${product.image}" alt="${product.name}" width="200" onerror="this.src='images/no-image.gif'">
                                         </div>
                                         <h3 class="productname">${product.name}</h3>
+                                        <div class="productds">
                                         <p class="productdescription">${product.description}</p>
+                                        </div>
                                         <div class="underrow">
                                             <span class="productprice">${product.price} грн</span>
                                             <button class="buy-button">
@@ -157,6 +192,18 @@
                         document.addEventListener("click", (e) => {
                             if (!document.querySelector(".search-container").contains(e.target)) {
                             results.style.display = "none"; // hide dropdown
+                            }
+                        });
+                    </script>
+                    
+                    <script>
+                        window.addEventListener('load', function() {
+                            const loadingScreen = document.getElementById('loadingScreen');
+                            if (loadingScreen) {
+                                loadingScreen.classList.add('fade-out');
+                                setTimeout(() => {
+                                    loadingScreen.remove();
+                                }, 600);
                             }
                         });
                     </script>
