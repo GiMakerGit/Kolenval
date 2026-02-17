@@ -8,6 +8,15 @@ body {
     margin: 0;
     padding: 0;
     min-height: 100vh;
+    background-color: transparent;
+}
+
+.container {
+    background-color: transparent;
+}
+
+main {
+    background-color: transparent;
 }
 
 .header {
@@ -67,9 +76,20 @@ nav a:hover {
     transform: translateY(-1px);
 }
 
+.banner {
+    width: 100%;
+    height: 400px;
+    position: relative;
+}
+
+.kolenvalbanner {
+    width: 100%;
+    position: absolute;
+    z-index: -1;
+}
+
 .googlemap {
     margin: 20px;
-
     border-radius: 16px;
     overflow: hidden;
     width: 600px;
@@ -83,11 +103,13 @@ nav a:hover {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 5px;
-    padding: 10px;
+    padding: 15px;
+    background: none;
 }
                         
 .product-card {
     border: 1px solid #ddd;
+    background-color: white;
     padding: 15px;
     text-align: center;
     border-radius: 8px;
