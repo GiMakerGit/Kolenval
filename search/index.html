@@ -1,165 +1,168 @@
 <!DOCTYPE html>
-    <html lang="ua">   
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <link rel="preconnect" href="https://fonts.googleapis.com">
-            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-            <link href="https://fonts.googleapis.com/css2?family=Outfit&family=Reem+Kufi&display=swap" rel="stylesheet">
-            <title>Коленвали</title>
-            <link rel="stylesheet" href="../css/light.css">
-            <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-            <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-            <link rel="manifest" href="/site.webmanifest">
-            <style>
-                #loadingScreen {
-                    position: fixed;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    background: white;
-                    z-index: 9999;
-                    opacity: 1;
-                    transition: opacity 0.6s ease-out;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                }
-                
-                #loadingScreen.fade-out {
-                    opacity: 0;
-                    transition: opacity 0.6s ease-out;
-                }
-                
-                #loadingScreen video {
-                    width: 40px;
-                    height: 30px;
-                    object-fit: contain;
-                }
-            </style>
-        </head>
-        <body>
-            <div id="loadingScreen">
-                <video autoplay muted playsinline>
-                    <source src="../video/kolenvalload.webm" type="video/webm">
-                </video>
+<html lang="ua">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Placeholder description for search page">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit&family=Reem+Kufi&display=swap" rel="stylesheet">
+    <title>Коленвали</title>
+    <link rel="stylesheet" href="../css/light.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <style>
+        #loadingScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 9999;
+            opacity: 1;
+            transition: opacity 0.6s ease-out;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #loadingScreen.fade-out {
+            opacity: 0;
+            transition: opacity 0.6s ease-out;
+        }
+
+        #loadingScreen video {
+            width: 40px;
+            height: 30px;
+            object-fit: contain;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="loadingScreen">
+        <video autoplay muted playsinline>
+            <source src="../video/kolenvalload.webm" type="video/webm">
+        </video>
+    </div>
+
+    <header class="header">
+        <div class="leftheader">
+            <div class="leftheader">
+                <img src="../logo.png" alt="logo" class="logo" width="20" height="20">
+                <a href="../" class="logotext">Kolenval</a>
+                <nav class="nav">
+                    <a href="../" class="nav-link">Головна</a>
+                    <a href="/about/" class="nav-link">Про нас</a>
+                    <a href="/payment_and_delivery/" class="nav-link">Оплата і доставка</a>
+                    <a href="/contacts/" class="nav-link">Контакти</a>
+                    <a href="/warranty/" class="nav-link">Гарантія</a>
+                    <a href="/info/" class="nav-link">Інформація</a>
+                </nav>
             </div>
-            
-            <header class="header">
-                <div class="leftheader">
-                    <div class="leftheader">
-                    <img src="../logo.png" alt="logo" class="logo" width="20" height="20">
-                    <a href="../" class="logotext">Kolenval</a>
-                    <nav class="nav">
-                        <a href="../" class="nav-link">Головна</a>
-                        <a href="/about/" class="nav-link">Про нас</a>
-                        <a href="/payment_and_delivery/" class="nav-link">Оплата і доставка</a>
-                        <a href="/contacts/" class="nav-link">Контакти</a>
-                        <a href="/warranty/" class="nav-link">Гарантія</a>
-                        <a href="/info/" class="nav-link">Інформація</a>
-                    </nav>
-                    </div>
+        </div>
+        <div class="search-container">
+            <input type="text" id="searchBox" placeholder="Пошук...">
+            <ul id="results"></ul>
+        </div>
+    </header>
+    <div class="container">
+
+
+        <main>
+            <div class="results">
+                <h2>Результати пошуку</h2>
+                <div class="product-gallery" id="productGallery">
                 </div>
-                <div class="search-container">
-                    <input type="text" id="searchBox" placeholder="Пошук...">
-                    <ul id="results"></ul>
-                </div>
-            </header>
-            <div class="container">
+            </div>
+        </main>
 
-
-                <main>
-                    <div class="results">
-                        <h2>Результати пошуку</h2>
-                        <div class="product-gallery" id="productGallery">
-                        </div>
-                    </div>
-                </main>
-
-<!--                <footer>
+        <!--                <footer>
                     <p>&copy; 2025 Kolenval </p>
                 </footer> -->
-            </div>
+    </div>
 
-            <script>
-                let products = [];
+    <script>
+        let products = [];
 
-                // Load products JSON
-                fetch("../products.json")
-                    .then(res => res.json())
-                    .then(data => {
-                    products = data.products;
-                    initSearchFromURL();
-                    displayResults();
-                    });
 
-                const searchBox = document.getElementById("searchBox");
-                const results = document.getElementById("results");
-                const productGallery = document.getElementById("productGallery");
+        fetch("../products.json")
+            .then(res => res.json())
+            .then(data => {
+                products = data.products;
+                initSearchFromURL();
+                displayResults();
+            });
 
+        const searchBox = document.getElementById("searchBox");
+        const results = document.getElementById("results");
+        const productGallery = document.getElementById("productGallery");
+
+        results.style.display = "none";
+
+        function showResults(query) {
+            results.innerHTML = "";
+
+            if (!query) {
                 results.style.display = "none";
+                return;
+            }
 
-                function showResults(query) {
-                    results.innerHTML = "";
+            const filtered = products.filter(p =>
+                p.name.toLowerCase().includes(query.toLowerCase()) ||
+                p.category.toLowerCase().includes(query.toLowerCase())
+            );
 
-                    if (!query) {
-                    results.style.display = "none";
-                    return;
-                    }
+            if (filtered.length === 0) {
+                const li = document.createElement("li");
+                li.textContent = "No products found";
+                results.appendChild(li);
+                results.style.display = "block";
+                return;
+            }
 
-                    const filtered = products.filter(p =>
-                    p.name.toLowerCase().includes(query.toLowerCase()) ||
-                    p.category.toLowerCase().includes(query.toLowerCase())
-                    );
+            filtered.forEach(p => {
+                const li = document.createElement("li");
+                li.innerHTML = `<strong>${p.name}</strong> - ${p.price} <em>(${p.category})</em>`;
+                li.addEventListener("click", () => {
+                    window.location.href = `/search?q=${encodeURIComponent(p.name)}`;
+                });
+                results.appendChild(li);
+            });
 
-                    if (filtered.length === 0) {
-                    const li = document.createElement("li");
-                    li.textContent = "No products found";
-                    results.appendChild(li);
-                    results.style.display = "block";
-                    return;
-                    }
+            results.style.display = "block";
+        }
 
-                    filtered.forEach(p => {
-                    const li = document.createElement("li");
-                    li.innerHTML = `<strong>${p.name}</strong> - ${p.price} <em>(${p.category})</em>`;
-                    li.addEventListener("click", () => {
-                        window.location.href = `/search?q=${encodeURIComponent(p.name)}`;
-                    });
-                    results.appendChild(li);
-                    });
+        function displayResults() {
+            const params = new URLSearchParams(window.location.search);
+            const query = params.get("q");
 
-                    results.style.display = "block";
-                }
+            if (!query) {
+                productGallery.innerHTML = "<p>Enter a search term to find products</p>";
+                return;
+            }
 
-                function displayResults() {
-                    const params = new URLSearchParams(window.location.search);
-                    const query = params.get("q");
-                    
-                    if (!query) {
-                        productGallery.innerHTML = "<p>Enter a search term to find products</p>";
-                        return;
-                    }
+            const filtered = products.filter(p =>
+                p.name.toLowerCase().includes(query.toLowerCase()) ||
+                p.category.toLowerCase().includes(query.toLowerCase())
+            );
 
-                    const filtered = products.filter(p =>
-                    p.name.toLowerCase().includes(query.toLowerCase()) ||
-                    p.category.toLowerCase().includes(query.toLowerCase())
-                    );
+            productGallery.innerHTML = "";
 
-                    productGallery.innerHTML = "";
+            if (filtered.length === 0) {
+                productGallery.innerHTML = "<p>No products found for your search</p>";
+                return;
+            }
 
-                    if (filtered.length === 0) {
-                        productGallery.innerHTML = "<p>No products found for your search</p>";
-                        return;
-                    }
-
-                    filtered.forEach(product => {
-                        const productCard = document.createElement('div');
-                        productCard.className = 'product-card';
-                        productCard.innerHTML = `
+            filtered.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                productCard.innerHTML = `
                             <div class="productimage">
-                                <img src="${product.image}" alt="${product.name}" width="200" onerror="this.src='../images/no-image.gif'">
+                                <img src="${product.image}" alt="${product.name}" width="200" onerror="this.src='../UIImages/no-image.png'">
                             </div>
                             <h3 class="productname">${product.name}</h3>
                             <div class="productds">
@@ -168,63 +171,64 @@
                             <div class="underrow">
                                 <span class="productprice">${product.price} грн</span>
                                 <button class="buy-button">
-                                    <img src="../ico/shop.png" alt="cart" width="16" height="16" onerror="this.src='../images/no-image.gif'">
+                                    <img src="../ico/shop.png" alt="cart" width="16" height="16" onerror="this.src='../UIImages/no-image.png'">
                                 </button>
                             </div>
                         `;
-                        productGallery.appendChild(productCard);
-                    });
+                productGallery.appendChild(productCard);
+            });
+        }
+
+        searchBox.addEventListener("input", () => {
+            const query = searchBox.value.trim();
+            showResults(query);
+
+            if (query) {
+                history.replaceState(null, "", `/search?q=${encodeURIComponent(query)}`);
+            } else {
+                history.replaceState(null, "", `/search`);
+            }
+            displayResults();
+        });
+
+        searchBox.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                const query = searchBox.value.trim();
+                if (query) {
+                    window.location.href = `/search?q=${encodeURIComponent(query)}`;
                 }
+            }
+        });
 
-                searchBox.addEventListener("input", () => {
-                    const query = searchBox.value.trim();
-                    showResults(query);
+        function initSearchFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            const q = params.get("q");
+            if (q) {
+                searchBox.value = q;
+                showResults(q);
+            }
+        }
 
-                    if (query) {
-                    history.replaceState(null, "", `/search?q=${encodeURIComponent(query)}`);
-                    } else {
-                    history.replaceState(null, "", `/search`);
-                    }
-                    displayResults();
-                });
+        document.addEventListener("click", (e) => {
+            if (!document.querySelector(".search-container").contains(e.target)) {
+                results.style.display = "none";
+            }
+        });
+    </script>
 
-                searchBox.addEventListener("keydown", (e) => {
-                    if (e.key === "Enter") {
-                    e.preventDefault();
-                    const query = searchBox.value.trim();
-                    if (query) {
-                        window.location.href = `/search?q=${encodeURIComponent(query)}`;
-                    }
-                    }
-                });
+    <script>
+        window.addEventListener('load', function () {
+            const loadingScreen = document.getElementById('loadingScreen');
+            if (loadingScreen) {
+                loadingScreen.classList.add('fade-out');
+                setTimeout(() => {
+                    loadingScreen.remove();
+                }, 600);
+            }
+        });
+    </script>
 
-                function initSearchFromURL() {
-                    const params = new URLSearchParams(window.location.search);
-                    const q = params.get("q");
-                    if (q) {
-                    searchBox.value = q;
-                    showResults(q);
-                    }
-                }
+</body>
 
-                document.addEventListener("click", (e) => {
-                    if (!document.querySelector(".search-container").contains(e.target)) {
-                    results.style.display = "none";
-                    }
-                });
-            </script>
-
-            <script>
-                window.addEventListener('load', function() {
-                    const loadingScreen = document.getElementById('loadingScreen');
-                    if (loadingScreen) {
-                        loadingScreen.classList.add('fade-out');
-                        setTimeout(() => {
-                            loadingScreen.remove();
-                        }, 600);
-                    }
-                });
-            </script>
-
-        </body>
-    </html>
+</html>
